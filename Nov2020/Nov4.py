@@ -28,19 +28,24 @@ class Solution(object):
             graph[u].add(v)
             graph[v].add(u)
         
-        while True:
-            
-            if len(graph) <= 2:
-                
-                return [key for key in graph]
-            
-            leaves = [i for i in graph if len(graph[i]) == 1]
-            
+        leaves = [i for i in graph if len(graph[i]) == 1]
+        
+        
+        while len(graph) > 2:
+        
+            new_leaves = []    
+        
             for leaf in leaves:
                 
                 parent = graph.pop(leaf).pop()
                 graph[parent].remove(leaf)
                 
+                if len(graph[parent]) == 1:
+                    new_leaves.append(parent)
+            
+            leaves = new_leaves
+        
+        return [key for key in graph]
 
 a = Solution()
 b = a.findMinHeightTrees(6, [[0,1],[0,2],[0,3],[3,4],[4,5]])
